@@ -1,0 +1,3 @@
+[submodule "himagaku-unity/Assets/Editor/UnityEditorScript"]
+	path = himagaku-unity/Assets/Editor/UnityEditorScript
+	url = git@github.com:nunu-e64/UnityEditorScript.git
