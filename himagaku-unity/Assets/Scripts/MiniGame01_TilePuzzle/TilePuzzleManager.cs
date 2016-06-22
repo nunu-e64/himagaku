@@ -13,12 +13,6 @@ public class TilePuzzleManager : MonoBehaviour {
     public class tileSpriteList {
         public Sprite[] sprites;
     }
- //   [System.Serializable]
-	//public struct TileSprite {
-	//	public Sprite sprite;
-	//	public int col;
- //       public int row;
-	//}
 
     // Use this for initialization
     void Start() {
@@ -36,9 +30,9 @@ public class TilePuzzleManager : MonoBehaviour {
 			}
 		}
 
-        // Set Position
+        // Set Panel Position
         Sprite tmpSprite = tileSprites[0].sprites[0];
-        this.transform.position = -1 * new Vector2((cols-0.5f) * tmpSprite.rect.width, (rows-0.5f) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
+        this.transform.position = -1 * new Vector2((cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
 	}
 
 	void Shuffle(int[] ary) {
