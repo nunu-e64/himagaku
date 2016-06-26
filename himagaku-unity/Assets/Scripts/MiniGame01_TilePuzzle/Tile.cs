@@ -12,27 +12,13 @@ namespace MiniGame01_TilePuzzle {
 
         private Vector3 currentTransformPosition;
         private const float Z_HOVER = -1.0f;
-        private bool iTweenMoving = true;
-        public bool isCorrectPosition { get; private set; }
 
-        public Tile Clone() {
-            Tile tile = new Tile();
-            tile.col = this.col;
-            tile.row = this.row;
-            tile.trueCol = this.trueCol;
-            tile.trueRow = this.trueRow;
-            tile.sprite = this.sprite;
-            tile.isCorrectPosition = this.isCorrectPosition;
-            return tile;
-        }
-
-        public void Initialize(int col, int row, int trueRow, int trueCol, Sprite sprite) {
+        public void Initialize(int col, int row, int trueCol, int trueRow, Sprite sprite) {
             this.col = col;
             this.row = row;
             this.trueCol = trueCol;
             this.trueRow = trueRow;
             this.sprite = sprite;
-            this.isCorrectPosition = (col == trueCol && row == trueRow);
 
             this.GetComponent<SpriteRenderer>().sprite = sprite;
             this.currentTransformPosition = this.GetTransformPosition(this.col, this.row, this.sprite);
@@ -40,9 +26,8 @@ namespace MiniGame01_TilePuzzle {
         }
 
         public void ChangePosition(Vector2 tilePos) {
-            this.col = (int) tilePos.x;
-            this.row = (int) tilePos.y;
-            this.isCorrectPosition = (this.col == this.trueCol && this.row == this.trueRow);
+            this.col = (int)tilePos.x;
+            this.row = (int)tilePos.y;
             this.currentTransformPosition = this.GetTransformPosition(this.col, this.row, this.sprite);
 
             iTweenExtention.SerialPlay(
@@ -63,7 +48,8 @@ namespace MiniGame01_TilePuzzle {
         Vector2 GetTransformPosition(int tileCol, int tileRow, Sprite tileSprite) {
             float x = tileCol * sprite.rect.width / tileSprite.pixelsPerUnit;
             float y = tileRow * sprite.rect.height / tileSprite.pixelsPerUnit;
-            Debug.Log(tileCol + ":" + tileRow + " x:" + x + " y:" + y);
+            y *= -1;
+            Debug.Log(tileCol + ":" + tileRow + " trueCol:" + this.trueCol + "," + this.trueRow);
             return new Vector2(x, y);
         }
 
@@ -75,6 +61,10 @@ namespace MiniGame01_TilePuzzle {
 
         public Vector2 GetTilePos() {
             return new Vector2(this.col, this.row);
+        }
+
+        public bool IsCorrectPosition() {
+            return (this.col == this.trueCol && this.row == this.trueRow);
         }
     }
 }

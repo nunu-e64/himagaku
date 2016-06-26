@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace MiniGame01_TilePuzzle {
     public class TilePuzzleManager : MonoBehaviour {
 
         [SerializeField] private GameObject tilePrefab;
+        [SerializeField] private Text clearText;
         [SerializeField] private tileSpriteList[] tileSprites;
         [System.Serializable] public class tileSpriteList {
             public Sprite[] sprites;
         }
-
         private Tile firstTouchTile;
+        private bool isClear;
 
         // タイルのスプライト作成とランダム初期配置
         void Start() {
             this.firstTouchTile  = null;
+            this.isClear = false;
+            this.clearText.gameObject.SetActive(false);
 
             int rows = this.tileSprites.GetLength(0);
             int cols = this.tileSprites[0].sprites.GetLength(0);
@@ -25,18 +29,24 @@ namespace MiniGame01_TilePuzzle {
                 for (int j = 0; j < cols; j++) {
                     int rdm = ary[i * cols + j];
                     GameObject newTile = Instantiate<GameObject>(this.tilePrefab);
-                    newTile.GetComponent<Tile>().Initialize(j, i, rdm / cols, rdm % cols, this.tileSprites[rdm / cols].sprites[rdm % cols]);
+                    newTile.GetComponent<Tile>().Initialize(j, i, rdm % cols, rdm / cols, this.tileSprites[rdm / cols].sprites[rdm % cols]);
                     newTile.transform.SetParent(this.transform);
                 }
             }
 
             // Set Panel Position
             Sprite tmpSprite = this.tileSprites[0].sprites[0];
-            this.transform.position = -1 * new Vector2((cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
+            this.transform.position = new Vector2(-1 * (cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
+
+            this.CheckClear();
         }
 
         // タップ判定
         void Update() {
+            if (this.isClear) {
+                return;
+            }
+
             Vector3 touchPos;
             if (!InputManager.Instance.GetTouchBeganPosition(out touchPos)) {
                 return;
@@ -53,6 +63,7 @@ namespace MiniGame01_TilePuzzle {
                 } else if (firstTouchTile != touchedTile) {
                     this.ExchangeTile(firstTouchTile, touchedTile);
                     this.firstTouchTile = null;
+                    this.CheckClear();
                 } else {
                     this.CancelFirstTile();
                 }
@@ -78,6 +89,21 @@ namespace MiniGame01_TilePuzzle {
         void CancelFirstTile() {
             this.firstTouchTile.Canceled();
             this.firstTouchTile = null;
+        }
+
+        // クリアチェック
+        void CheckClear() {
+            foreach (var tile in this.GetComponentsInChildren<Tile>()) {
+                if (tile.IsCorrectPosition() == false) {
+                    this.isClear = false;
+                    Debug.Log("false");
+                    return;
+                }
+            }
+
+            this.clearText.gameObject.SetActive(true);
+            this.isClear = true;
+            Debug.Log("true");
         }
     }
 }
