@@ -21,4 +21,18 @@ public static class Util {
 			return args[--index];
 		}
 	}
+
+    // 配列をシャッフルする
+    public static void ShuffleIntArray(int[] ary) {
+        System.Random rng = new System.Random();
+        int n = ary.Length;
+        while (n > 1) {
+            n--;
+            int k = rng.Next(n + 1);
+            int tmp = ary[k];
+            ary[k] = ary[n];
+            ary[n] = tmp;
+        }
+    }
+
 }
