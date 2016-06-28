@@ -8,6 +8,10 @@ public class TouchSystem : MonoBehaviour {
 
 	private int laneInterval = Screen.width / 3;
 
+//	private int laneLeftX = Screen.width / 6;
+//	private int laneCenterX = Screen.width / 2;
+//	private int laneRightX = Screen.width * 5 / 6;
+
 	GameObject player;
 
 	// Use this for initialization
@@ -23,15 +27,17 @@ public class TouchSystem : MonoBehaviour {
 	}
 
 	void movePlayer(Vector3 cursorPos) {
-		
-		Vector3 movement = Vector3.zero;
 
-		if(cursorPos.x < player.GetComponent<Player>().GetScreenPointLeftX())
-			movement.x = -laneInterval;
-		else if(cursorPos.x > player.GetComponent<Player>().GetScreenPointRightX())
-			movement.x = laneInterval;
-		
-		player.GetComponent<Player>().Move(movement);
+		float moveToX = 0;
+
+		if(cursorPos.x < -1)
+			moveToX = -2;
+		else if(cursorPos.x > 1)
+			moveToX = 2;
+
+		Debug.Log(moveToX);
+
+		player.GetComponent<Player>().MoveToX(moveToX);
 	}
 
 	bool isTouchEnter() {
@@ -39,12 +45,11 @@ public class TouchSystem : MonoBehaviour {
 	}
 
 	Vector3 getTouchPoint() {
-
 		if(Input.GetMouseButtonDown(0)) 
-			return Input.mousePosition;
+			return Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		
 		if(Input.touchCount > 0)
-			return Input.touches[0].position;
+			return Camera.main.ScreenToWorldPoint(Input.touches[0].position);
 		
 		return new Vector3(0, 0, 0);
 	}
