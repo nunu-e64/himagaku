@@ -29,14 +29,15 @@ namespace MiniGame01_TilePuzzle {
                 for (int j = 0; j < cols; j++) {
                     int rdm = ary[i * cols + j];
                     GameObject newTile = Instantiate<GameObject>(this.tilePrefab);
-                    newTile.GetComponent<Tile>().Initialize(j, i, rdm % cols, rdm / cols, this.tileSprites[rdm / cols].sprites[rdm % cols]);
                     newTile.transform.SetParent(this.transform);
+                    newTile.transform.localScale = Vector3.one;
+                    newTile.GetComponent<Tile>().Initialize(j, i, rdm % cols, rdm / cols, this.tileSprites[rdm / cols].sprites[rdm % cols]);
                 }
             }
 
             // Set Panel Position
             Sprite tmpSprite = this.tileSprites[0].sprites[0];
-            this.transform.position = new Vector2(-1 * (cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
+            //this.transform.position = new Vector2(-1 * (cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
 
             this.CheckClear();
         }
