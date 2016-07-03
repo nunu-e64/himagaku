@@ -52,7 +52,6 @@ namespace MiniGame01_TilePuzzle {
             if (!InputManager.Instance.GetTouchBeganPosition(out touchPos)) {
                 return;
             }
-            Debug.Log(touchPos);
             var touchedCollider = Physics2D.OverlapPoint(touchPos);
             if (touchedCollider == null) {
                 return;
