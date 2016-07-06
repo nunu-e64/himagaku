@@ -19,6 +19,7 @@ namespace MiniGame01_TilePuzzle {
             this.trueCol = trueCol;
             this.trueRow = trueRow;
             this.sprite = sprite;
+            Debug.Assert (this.sprite != null);
 
             this.GetComponent<SpriteRenderer>().sprite = sprite;
             this.currentTransformPosition = this.GetTransformPosition(this.col, this.row, this.sprite);
@@ -46,10 +47,11 @@ namespace MiniGame01_TilePuzzle {
         }
 
         Vector2 GetTransformPosition(int tileCol, int tileRow, Sprite tileSprite) {
+            Debug.Assert(tileSprite != null);
             float x = tileCol * sprite.rect.width / tileSprite.pixelsPerUnit;
             float y = tileRow * sprite.rect.height / tileSprite.pixelsPerUnit;
             y *= -1;
-            Debug.Log(tileCol + ":" + tileRow + " trueCol:" + this.trueCol + "," + this.trueRow);
+            Debug.Log("GetTransformPosition: " + tileCol + ":" + tileRow + " trueCol:" + this.trueCol + "," + this.trueRow);
             return new Vector2(x, y);
         }
 

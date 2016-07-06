@@ -15,12 +15,8 @@ namespace MiniGame01_TilePuzzle {
         private Tile firstTouchTile;
         private bool isClear;
 
-        [SerializeField] private GameObject filter;     // 黒フィルター
-
         // タイルのスプライト作成とランダム初期配置
         void Start() {
-            iTweenFade.Fade(this.filter, this.filter.GetComponent<SpriteRenderer>().color.a, 0, 1.0f);
-
             this.firstTouchTile  = null;
             this.isClear = false;
             this.clearText.gameObject.SetActive(false);
@@ -40,7 +36,7 @@ namespace MiniGame01_TilePuzzle {
             }
 
             // Set Panel Position
-            Sprite tmpSprite = this.tileSprites[0].sprites[0];
+//            Sprite tmpSprite = this.tileSprites[0].sprites[0];
             //this.transform.position = new Vector2(-1 * (cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
 
             this.CheckClear();
@@ -100,14 +96,14 @@ namespace MiniGame01_TilePuzzle {
             foreach (var tile in this.GetComponentsInChildren<Tile>()) {
                 if (tile.IsCorrectPosition() == false) {
                     this.isClear = false;
-                    Debug.Log("false");
+                    Debug.Log("CheckClear: false");
                     return;
                 }
             }
 
             this.clearText.gameObject.SetActive(true);
             this.isClear = true;
-            Debug.Log("true");
+            Debug.Log("CheckClear: true");
         }
     }
 }
