@@ -15,8 +15,12 @@ namespace MiniGame01_TilePuzzle {
         private Tile firstTouchTile;
         private bool isClear;
 
+        [SerializeField] private GameObject filter;     // 黒フィルター
+
         // タイルのスプライト作成とランダム初期配置
         void Start() {
+            iTweenFade.Fade(this.filter, this.filter.GetComponent<SpriteRenderer>().color.a, 0, 1.0f);
+
             this.firstTouchTile  = null;
             this.isClear = false;
             this.clearText.gameObject.SetActive(false);

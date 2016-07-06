@@ -686,7 +686,7 @@ GameObject:
   - 4: {fileID: 1634013417}
   - 114: {fileID: 1634013416}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: TilePuzzleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -731,6 +731,7 @@ MonoBehaviour:
     - {fileID: 21300034, guid: a650ee7b84da24480ae7819524cbe3af, type: 3}
     - {fileID: 21300036, guid: a650ee7b84da24480ae7819524cbe3af, type: 3}
     - {fileID: 21300038, guid: a650ee7b84da24480ae7819524cbe3af, type: 3}
+  filter: {fileID: 2144302194}
 --- !u!4 &1634013417
 Transform:
   m_ObjectHideFlags: 0
