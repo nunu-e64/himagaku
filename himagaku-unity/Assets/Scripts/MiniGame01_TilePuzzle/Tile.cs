@@ -33,8 +33,8 @@ namespace MiniGame01_TilePuzzle {
 
             iTweenExtention.SerialPlay(
                 this.gameObject
-                , (iTweenAction)iTween.MoveTo, iTween.Hash("position", this.GetHoverPosition(), "time", 0.5f, "isLocal", true)
-                , (iTweenAction)iTween.MoveTo, iTween.Hash("position", this.currentTransformPosition, "time", 0.2f, "isLocal", true)
+                , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.GetHoverPosition(), "time", 0.5f, "isLocal", true)
+                , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.currentTransformPosition, "time", 0.2f, "isLocal", true)
             );
         }
 

@@ -8,6 +8,10 @@ namespace MiniGame01_TilePuzzle {
 
         [SerializeField] private GameObject tilePrefab;
         [SerializeField] private Text clearText;
+        [SerializeField] private GameObject backGround;
+        [SerializeField] private GameObject filter;
+        [SerializeField] private GameObject frame;
+
         [SerializeField] private tileSpriteList[] tileSprites;
         [System.Serializable] public class tileSpriteList {
             public Sprite[] sprites;
@@ -17,10 +21,14 @@ namespace MiniGame01_TilePuzzle {
 
         // タイルのスプライト作成とランダム初期配置
         void Start() {
-            this.firstTouchTile  = null;
+            this.firstTouchTile = null;
             this.isClear = false;
-            this.clearText.gameObject.SetActive(false);
+            this.clearText.gameObject.SetActive (false);
+            this.Opening ();
+        }
 
+        [ContextMenu("InitializeTile")]
+        void InitializePanels() {
             int rows = this.tileSprites.GetLength(0);
             int cols = this.tileSprites[0].sprites.GetLength(0);
             int[] ary = Enumerable.Range(0, rows * cols).Select(i => (int)i).ToArray();
@@ -36,10 +44,18 @@ namespace MiniGame01_TilePuzzle {
             }
 
             // Set Panel Position
-//            Sprite tmpSprite = this.tileSprites[0].sprites[0];
+            //Sprite tmpSprite = this.tileSprites[0].sprites[0];
             //this.transform.position = new Vector2(-1 * (cols - 1) * tmpSprite.rect.width, (rows - 1) * tmpSprite.rect.height) / 2 / tmpSprite.pixelsPerUnit;
 
             this.CheckClear();
+        }
+
+        void Opening() {
+            iTweenExtention.SerialPlay (
+                this.gameObject,
+                (iTweenAction)iTweenSprite.FadeTo, this.filter, iTween.Hash ("from", 1.0f, "to", 0.0f, "time", 1.0f),
+                (iTweenAction)iTween.MoveTo, this.frame, iTween.Hash ("x", -10.0f, "time", 0.5f)
+            );
         }
 
         // タップ判定

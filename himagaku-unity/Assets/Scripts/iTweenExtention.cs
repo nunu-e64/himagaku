@@ -30,7 +30,7 @@ public delegate void iTweenAction(GameObject target, Hashtable args);
 
 public class iTweenExtention : MonoBehaviour {
     /// <summary>
-    /// play iTween animations to seriall
+    /// play iTween animations to serial
     /// </summary>
     /// <param name="target">target of the animation</param>
     /// <param name="param">Parameter of the animation</param>
@@ -43,15 +43,17 @@ public class iTweenExtention : MonoBehaviour {
         }
 
         var firstAction = param[0] as iTweenAction;
-        var firstArg = param[1] as Hashtable;
+        var firstTarget = param[1] as GameObject;
+        var firstArg = param[2] as Hashtable;
 
         //create iTween chain
         var preArg = firstArg;
-        for (int index = 2; index < param.Length; index += 2) {
+        for (int index = 3; index < param.Length; index += 3) {
             var action = param[index] as iTweenAction;
-            var args = param[index + 1] as Hashtable;
+            var actionTarget = param[index + 1] as GameObject;
+            var args = param[index + 2] as Hashtable;
 
-            Action callback = () => action(target, args);
+            Action callback = () => action(actionTarget, args);
 
             preArg.Add("oncomplete", "HandleTweenComplete");
             preArg.Add("oncompleteparams", callback);
@@ -63,7 +65,7 @@ public class iTweenExtention : MonoBehaviour {
         }
 
         //call first
-        firstAction(target, firstArg);
+        firstAction(firstTarget, firstArg);
     }
 
     protected int waitCount = 0;
