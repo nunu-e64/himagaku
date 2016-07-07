@@ -1,0 +1,93 @@
+fileFormatVersion: 2
+guid: c397a22e238804222a02442c90fc1f29
+timeCreated: 1467122467
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: yayoi_0
+    21300002: yayoi_1
+    21300004: yayoi_2
+    21300006: yayoi_3
+    21300008: yayoi_4
+    21300010: yayoi_5
+    21300012: yayoi_6
+    21300014: yayoi_7
+    21300016: yayoi_8
+    21300018: yayoi_9
+    21300020: yayoi_10
+    21300022: yayoi_11
+    21300024: yayoi_12
+    21300026: yayoi_13
+    21300028: yayoi_14
+    21300030: yayoi_15
+    21300032: yayoi_16
+    21300034: yayoi_17
+    21300036: yayoi_18
+    21300038: yayoi_19
+    21300040: yayoi_full_0
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: yayoi_full_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 640
+        height: 800
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -320, y: 400}
+        - {x: -320, y: -400}
+        - {x: 320, y: -400}
+        - {x: 320, y: 400}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
