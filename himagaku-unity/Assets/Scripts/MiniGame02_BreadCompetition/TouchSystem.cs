@@ -8,10 +8,6 @@ public class TouchSystem : MonoBehaviour {
 
 	private int laneInterval = Screen.width / 3;
 
-//	private int laneLeftX = Screen.width / 6;
-//	private int laneCenterX = Screen.width / 2;
-//	private int laneRightX = Screen.width * 5 / 6;
-
 	GameObject player;
 
 	// Use this for initialization
@@ -34,9 +30,7 @@ public class TouchSystem : MonoBehaviour {
 			moveToX = -2;
 		else if(cursorPos.x > 1)
 			moveToX = 2;
-
-		Debug.Log(moveToX);
-
+		
 		player.GetComponent<Player>().MoveToX(moveToX);
 	}
 
