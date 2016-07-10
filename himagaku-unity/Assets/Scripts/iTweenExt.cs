@@ -28,8 +28,8 @@ public class iTweenExt : MonoBehaviour {
     }
 
     public static void FadeTo(GameObject target, Hashtable args) {
-        AddComponent(target); 
-        Debug.Assert(args.Contains("from") && args.Contains("to") && args.Contains("time"));
+        Debug.Assert(target != null && args.Contains("from") && args.Contains("to") && args.Contains("time"));
+        AddComponent(target);
         args.Add("onupdate", "SetAlpha");
         iTween.ValueTo(target, args);
     }
@@ -39,13 +39,24 @@ public class iTweenExt : MonoBehaviour {
     }
 
     public static void ColorTo(GameObject target, Hashtable args) {
-        AddComponent(target); 
-        Debug.Assert(args.Contains("from") && args.Contains("to") && args.Contains("time"));
+        Debug.Assert(target != null && args.Contains("from") && args.Contains("to") && args.Contains("time"));
+        AddComponent(target);
         if (target.GetComponent<iTweenExt>() == null) {
             target.AddComponent<iTweenExt>();
         }
 
         args.Add("onupdate", "SetColor");
+        iTween.ValueTo(target, args);
+    }
+
+    public static void FadeToWithChildren(GameObject target, Hashtable args) {
+        Debug.Assert(target != null && args.Contains("from") && args.Contains("to") && args.Contains("time"));
+        AddComponent(target);
+        foreach (Transform child in target.transform) {
+            AddComponent(child.gameObject);
+        }
+
+        args.Add("onupdate", "SetAlphaWithChildren");
         iTween.ValueTo(target, args);
     }
 
@@ -67,6 +78,13 @@ public class iTweenExt : MonoBehaviour {
             this.GetComponent<SpriteRenderer>().color = color;
         } else if (this.type == typeof(UnityEngine.UI.Text)) {
             this.GetComponent<UnityEngine.UI.Text>().color = color;
+        }
+    }
+
+    protected void SetAlphaWithChildren(float alpha) {
+        this.SetAlpha(alpha);
+        foreach (iTweenExt i in GetComponentsInChildren<iTweenExt>()) {
+            i.SetAlpha(alpha);
         }
     }
 }
