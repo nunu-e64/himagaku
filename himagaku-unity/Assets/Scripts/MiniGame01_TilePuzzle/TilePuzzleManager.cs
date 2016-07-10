@@ -19,6 +19,7 @@ namespace MiniGame01_TilePuzzle {
             public Sprite[] sprites;
         }
 
+        private Tile[,] tiles;
         private Tile firstTouchTile;
         private bool isClear;
         private bool isPlaying;
@@ -41,12 +42,14 @@ namespace MiniGame01_TilePuzzle {
         void InitializeTiles() {
             int rows = this.tileSprites.GetLength(0);
             int cols = this.tileSprites[0].sprites.GetLength(0);
+            tiles = new Tile[rows, cols];
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     GameObject newTile = Instantiate<GameObject>(this.tilePrefab);
                     newTile.transform.SetParent(this.transform);
                     newTile.transform.localScale = Vector3.one;
                     newTile.GetComponent<Tile>().Initialize(j, i, j, i, this.tileSprites[i].sprites[j]);
+                    tiles[i, j] = newTile.GetComponent<Tile>();
                 }
             }
         }
@@ -69,7 +72,7 @@ namespace MiniGame01_TilePuzzle {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     int rdm = ary[i * cols + j];
-                    GameObject newTile = Instantiate<GameObject>(this.tilePrefab);
+                    GameObject newTile = tiles[i, j].gameObject;
                     newTile.transform.SetParent(this.transform);
                     newTile.transform.localScale = Vector3.one;
                     newTile.GetComponent<Tile>().Initialize(j, i, rdm % cols, rdm / cols, this.tileSprites[rdm / cols].sprites[rdm % cols]);
@@ -169,9 +172,13 @@ namespace MiniGame01_TilePuzzle {
                 }
             }
 
-            this.clearText.gameObject.SetActive(true);
             this.isClear = true;
             Debug.Log("CheckClear: true");
+
+            // Clear Animation
+            this.clearText.gameObject.SetActive(true);
+            iTween.MoveFrom(this.clearText.gameObject, iTween.Hash("y", -200, "islocal", true, "time", 1.0f));
+            iTweenExt.FadeTo(this.clearText.gameObject, iTween.Hash("from", 0, "to", 1, "time", 1.0f));
         }
     }
 }
