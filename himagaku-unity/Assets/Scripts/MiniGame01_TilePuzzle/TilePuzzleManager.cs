@@ -23,6 +23,7 @@ namespace MiniGame01_TilePuzzle {
         private Tile firstTouchTile;
         private bool isClear;
         private bool isPlaying;
+        private bool didClearAnimation;
         private float time;
 
         // タイルのスプライト作成とランダム初期配置
@@ -30,6 +31,7 @@ namespace MiniGame01_TilePuzzle {
             this.firstTouchTile = null;
             this.isClear = false;
             this.isPlaying = false;
+            this.didClearAnimation = false;
             this.time = 0.0f;
             this.clearText.gameObject.SetActive(false);
             this.timeText.gameObject.SetActive(false);
@@ -57,7 +59,7 @@ namespace MiniGame01_TilePuzzle {
         void Opening() {
             iTweenExtention.SerialPlay(
                 this.gameObject,
-                (iTweenAction)iTweenExt.FadeTo, this.filter, iTween.Hash("from", 1.0f, "to", 0.0f, "time", 1.0f),
+                (iTweenAction)iTweenExt.ColorTo, this.filter, iTween.Hash("from", new Color(0, 0, 0, 1.0f), "to", new Color(0, 0, 0, 0.0f), "time", 1.0f),
                 (iTweenAction)iTween.MoveTo, this.frame, iTween.Hash("x", -10.0f, "time", 1.0f, "oncomplete", "ShuffleTiles", "oncompletetarget", this.gameObject)
             );
         }
@@ -101,18 +103,24 @@ namespace MiniGame01_TilePuzzle {
                 (iTweenAction)iTween.MoveFrom, this.startText.gameObject, iTween.Hash("x", -200, "time", 0.5f, "islocal", true),
                 (iTweenAction)iTween.MoveTo, this.startText.gameObject, iTween.Hash("x", 200, "time", 0.5f, "islocal", true, "delay", 0.5f)
             );
-            this.CheckClear();
         }
 
         void GameStart() {
             this.isPlaying = true;
+            this.CheckClear();
         }
 
-        // タップ判定
         void Update() {
+            if (this.isClear && !this.didClearAnimation) {
+                // Clear Animation
+                this.didClearAnimation = true;;
+                iTweenExt.ColorTo(this.filter, iTween.Hash("from", new Color(1, 1, 1, 1), "to", new Color(1, 1, 1, 0), "time", 0.5f));
+                iTweenExt.ColorTo(this.backGround, iTween.Hash("from", this.backGround.GetComponent<SpriteRenderer>().color, "to", new Color(1, 1, 1, 1), "time", 0f, "oncomplete", "ClearAnimation", "oncompletetarget", this.gameObject));
+            }
             if (this.isClear || !this.isPlaying) {
                 return;
             }
+
 
             // UpdateTimer
             this.time += Time.deltaTime;
@@ -134,7 +142,6 @@ namespace MiniGame01_TilePuzzle {
                 } else if (firstTouchTile != touchedTile) {
                     this.ExchangeTile(firstTouchTile, touchedTile);
                     this.firstTouchTile = null;
-                    this.CheckClear();
                 } else {
                     this.CancelFirstTile();
                 }
@@ -152,8 +159,8 @@ namespace MiniGame01_TilePuzzle {
             Debug.Assert(firstTile != null);
             Debug.Assert(secondTile != null);
             Vector2 temp = firstTile.GetTilePos();
-            firstTile.ChangePosition(secondTile.GetTilePos());
-            secondTile.ChangePosition(temp);
+            firstTile.ChangePosition(secondTile.GetTilePos(), this.gameObject);
+            secondTile.ChangePosition(temp, this.gameObject);
         }
 
         // 一枚目選択解除
@@ -173,9 +180,11 @@ namespace MiniGame01_TilePuzzle {
             }
 
             this.isClear = true;
+            this.didClearAnimation = false;
             Debug.Log("CheckClear: true");
+        }
 
-            // Clear Animation
+        void ClearAnimation() {
             this.clearText.gameObject.SetActive(true);
             iTween.MoveFrom(this.clearText.gameObject, iTween.Hash("y", -200, "islocal", true, "time", 1.0f));
             iTweenExt.FadeTo(this.clearText.gameObject, iTween.Hash("from", 0, "to", 1, "time", 1.0f));

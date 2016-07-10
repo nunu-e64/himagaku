@@ -26,7 +26,7 @@ namespace MiniGame01_TilePuzzle {
             this.transform.localPosition = this.currentTransformPosition;
         }
 
-        public void ChangePosition(Vector2 tilePos) {
+        public void ChangePosition(Vector2 tilePos, GameObject manager) {
             this.col = (int)tilePos.x;
             this.row = (int)tilePos.y;
             this.currentTransformPosition = this.GetTransformPosition(this.col, this.row, this.sprite);
@@ -34,7 +34,7 @@ namespace MiniGame01_TilePuzzle {
             iTweenExtention.SerialPlay(
                 this.gameObject
                 , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.GetHoverPosition(), "time", 0.5f, "isLocal", true)
-                , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.currentTransformPosition, "time", 0.2f, "isLocal", true)
+                , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.currentTransformPosition, "time", 0.2f, "isLocal", true, "oncomplete", "CheckClear", "oncompletetarget", manager)
             );
         }
 
