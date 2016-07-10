@@ -13,3 +13,7 @@ or simply,
 ```
 git clone git@github.com:nunu-e64/himagaku.git --recursive
 ```
+
+### UnityCloudBuild
+https://build.cloud.unity3d.com/orgs/himagaku-team/projects/himagaku/
+
