@@ -29,4 +29,8 @@ public class InputManager : SingletonMonoBehaviour<InputManager> {
         return true;
     }
 
+    public bool GetTouchBegan() {
+        Vector3 dummy;
+        return GetTouchBeganPosition(out dummy);
+    }
 }
