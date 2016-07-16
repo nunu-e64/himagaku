@@ -19,21 +19,22 @@ namespace MiniGame01_TilePuzzle {
             this.trueCol = trueCol;
             this.trueRow = trueRow;
             this.sprite = sprite;
+            Debug.Assert (this.sprite != null);
 
             this.GetComponent<SpriteRenderer>().sprite = sprite;
             this.currentTransformPosition = this.GetTransformPosition(this.col, this.row, this.sprite);
             this.transform.localPosition = this.currentTransformPosition;
         }
 
-        public void ChangePosition(Vector2 tilePos) {
+        public void ChangePosition(Vector2 tilePos, GameObject manager) {
             this.col = (int)tilePos.x;
             this.row = (int)tilePos.y;
             this.currentTransformPosition = this.GetTransformPosition(this.col, this.row, this.sprite);
 
             iTweenExtention.SerialPlay(
                 this.gameObject
-                , (iTweenAction)iTween.MoveTo, iTween.Hash("position", this.GetHoverPosition(), "time", 0.5f, "isLocal", true)
-                , (iTweenAction)iTween.MoveTo, iTween.Hash("position", this.currentTransformPosition, "time", 0.2f, "isLocal", true)
+                , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.GetHoverPosition(), "time", 0.5f, "isLocal", true)
+                , (iTweenAction)iTween.MoveTo, this.gameObject, iTween.Hash("position", this.currentTransformPosition, "time", 0.2f, "isLocal", true, "oncomplete", "CheckClear", "oncompletetarget", manager)
             );
         }
 
@@ -46,10 +47,11 @@ namespace MiniGame01_TilePuzzle {
         }
 
         Vector2 GetTransformPosition(int tileCol, int tileRow, Sprite tileSprite) {
+            Debug.Assert(tileSprite != null);
             float x = tileCol * sprite.rect.width / tileSprite.pixelsPerUnit;
             float y = tileRow * sprite.rect.height / tileSprite.pixelsPerUnit;
             y *= -1;
-            Debug.Log(tileCol + ":" + tileRow + " trueCol:" + this.trueCol + "," + this.trueRow);
+            Debug.Log("GetTransformPosition: " + tileCol + ":" + tileRow + " trueCol:" + this.trueCol + "," + this.trueRow);
             return new Vector2(x, y);
         }
 
