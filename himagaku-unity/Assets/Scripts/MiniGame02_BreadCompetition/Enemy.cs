@@ -1,48 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using minigame02;
+
 public class Enemy : MonoBehaviour {
-
-	private int laneLeftX = Screen.width / 6;
-	private int laneCenterX = Screen.width / 2;
-	private int laneRightX = Screen.width * 5 / 6;
-
+	
 	[SerializeField] float delayTime;
-	float time;
-	float speed;
-
-	Vector3 nextPosition;
+	private float time;
+	private float speed;
+	private float posY;
 
 	// Use this for initialization
-	void Start () {
-		time = 0;
-		nextPosition = this.transform.position;
+	void Start() {
+		this.time = 0;
+		this.posY = this.transform.position.y;
 	}
-	
+
+
 	// Update is called once per frame
-	void Update () {
-		time += Time.deltaTime;
-		this.transform.position = Vector3.MoveTowards(this.transform.position, nextPosition, speed);
-
-		if(this.transform.position == nextPosition && time > delayTime)
-			InitPosition();
+	void Update() {
+		this.time += Time.deltaTime;
+		if(this.delayTime < this.time) {
+			this.Move();
+		}
 	}
 
-	void InitPosition() {
-		float rand = Random.value;
-
-		this.transform.position = new Vector3(0, 8, 0);
+	private void Move() {
+		this.speed = (this.time / 100) + 0.1f;
+		this.posY -= (this.speed * Time.deltaTime * 60);
+		if(posY < Constants.ENEMY_END_POSITION_Y) {
+			this.InitPosition();
+		}
+		Vector3 pos = this.transform.position;
+		pos.y = this.posY;
+		this.transform.position = pos;
+	}
 		
+	void InitPosition() {
+		float diffY = this.posY - Constants.ENEMY_END_POSITION_Y;
+		this.posY = Constants.ENEMY_INIT_POSITION_Y + diffY;
+		
+		float rand = Random.value;
 		if(rand < 0.3f)
-			this.transform.position = new Vector3(-2, 8, 0);
+			this.transform.position = new Vector3(Constants.LANE_LEFT_X, this.posY, 0);
 		else if(rand < 0.6f)
-			this.transform.position = new Vector3(2, 8, 0);
+			this.transform.position = new Vector3(Constants.LANE_RIGHT_X, this.posY, 0);
 		else
-			this.transform.position = new Vector3(0, 8, 0);
-
-		delayTime = Random.value;
-		speed = (time / 100) + 0.1f;
-		nextPosition = this.transform.position;
-		nextPosition.y = -8;
+			this.transform.position = new Vector3(Constants.LANE_CENTER_X, this.posY, 0);
 	}
 }

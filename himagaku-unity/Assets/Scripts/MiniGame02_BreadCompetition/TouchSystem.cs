@@ -1,44 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using minigame02;
+
 public class TouchSystem : MonoBehaviour {
 
-	Vector3 cursorPos;
-	Vector2 playerPos;
+	private Vector3 cursorPos;
+	private Vector2 playerPos;
 
-	private int laneInterval = Screen.width / 3;
-
-	GameObject player;
+	private GameObject player;
 
 	// Use this for initialization
 	void Start() {
-		player = GameObject.FindGameObjectWithTag("Player");
+		this.player = GameObject.FindGameObjectWithTag("Player");
 	}
 
 	void Update() {
-		if (isTouchEnter()) {
-			cursorPos = getTouchPoint();
-			movePlayer(cursorPos);
+		if (this.IsTouchEnter()) {
+			this.cursorPos = this.GetTouchPoint();
+			this.MovePlayer(this.cursorPos);
 		}
 	}
 
-	void movePlayer(Vector3 cursorPos) {
+	void MovePlayer(Vector3 cursorPos) {
 
-		float moveToX = 0;
+		float moveToX = Constants.LANE_CENTER_X;
 
 		if(cursorPos.x < -1)
-			moveToX = -2;
+			moveToX = Constants.LANE_LEFT_X;
 		else if(cursorPos.x > 1)
-			moveToX = 2;
+			moveToX = Constants.LANE_RIGHT_X;
 		
 		player.GetComponent<Player>().MoveToX(moveToX);
 	}
 
-	bool isTouchEnter() {
+	bool IsTouchEnter() {
 		return Input.GetMouseButtonDown(0) || Input.touchCount > 0;
 	}
 
-	Vector3 getTouchPoint() {
+	Vector3 GetTouchPoint() {
 		if(Input.GetMouseButtonDown(0)) 
 			return Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		
