@@ -158,7 +158,7 @@ GameObject:
   - 212: {fileID: 904197630}
   m_Layer: 0
   m_Name: Filter
-  m_TagString: Untagged
+  m_TagString: Filter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
